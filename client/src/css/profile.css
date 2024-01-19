@@ -62,7 +62,8 @@
 }
 
 .active-card {
-    background-color: slategray;
+    background-color: var(--cont-bg);
+    box-shadow: var(--cont-shadow);
     padding: 1rem;
     border-radius: 5px;
     max-width: 10rem;
@@ -71,7 +72,7 @@
 }
 
 .line-seperate {
-    height: 1.5px;
+    height: 1.3px;
     background-color: grey;
     margin: 1rem 0;
 }

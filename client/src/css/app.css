@@ -37,9 +37,24 @@ body {
     flex-grow: 1;
 }
 
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
 
 
-.footer {  
+.footer {
     width: 100%;
     text-align: center;
     font-size: 1.2rem;
@@ -51,4 +66,3 @@ body {
         font-style: oblique;
     }
 }
-

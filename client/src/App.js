@@ -6,6 +6,7 @@ import './css/home.css';
 import './css/utility.css';
 import './css/profile.css';
 import './css/about.css';
+import './css/favorite.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';

@@ -22,8 +22,8 @@ export const Favorites = () => {
 
     return (
         <Container>
-            <h2>Your favorite products</h2>
-            <Container>
+            <h2 style={{"textAlign":"center", "marginTop":"2rem"}}>Your favorite products</h2>
+            <div className="grid-favorite">
                 {favorites.map(fav =>
                     <Card style={{ width: '18rem' }} key={fav._id}>
                         <Card.Img variant="top" src={fav.image} />
@@ -46,7 +46,7 @@ export const Favorites = () => {
                         </Card.Body>
                     </Card>)}
 
-            </Container>
+            </div>
         </Container>
     )
 }
