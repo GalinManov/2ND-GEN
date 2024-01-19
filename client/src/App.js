@@ -20,6 +20,7 @@ import { About } from './components/About';
 import { Profile } from './components/Profile';
 import { Edit } from './components/Edit';
 import { Favorites } from './components/Favorites';
+import { History } from './components/History';
 import React, { useEffect, useState } from 'react';
 
 
@@ -46,6 +47,7 @@ function App() {
           <Route path='/profile/:id' element={<Profile />} />
           <Route path='/products/edit/:id' element={<Edit />} />
           <Route path='/products/favorites/:id' element={<Favorites />} />
+          <Route path='/productHistory/:id' element={<History />} />
         </Routes>
       </div>
       <Footer></Footer>

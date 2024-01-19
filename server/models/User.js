@@ -21,9 +21,7 @@ const UserSchema = new mongoose.Schema({
     favoriteProducts: {
         type: []     
     },
-    soldProducts: {
-        type: [mongoose.Schema.Types.ObjectId], ref: 'Product',  
-    }
+   
 
     
 }, {timestamps: true});

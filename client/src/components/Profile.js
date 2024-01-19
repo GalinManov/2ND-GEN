@@ -57,7 +57,7 @@ export const Profile = () => {
                     <h2 className='mb-4'>More</h2>
                     {isUser &&
                         <>
-                            <a className='btn btn-primary mb-2'>View listing history</a>
+                            <a className='btn btn-primary mb-2' href={`/productHistory/${id.id}`}>View listing history</a>
                             <a href={`/products/favorites/${currentUser}`} className='btn btn-primary mb-2'>View Favorite products</a>
                         </>}
                 </div>

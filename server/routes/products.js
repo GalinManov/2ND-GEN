@@ -29,12 +29,12 @@ productRouter.post("/", async (req, res) => {
 //GET ALL PRODUCTS
 
 productRouter.get("/", (req, res) => {
-    const products = Product.find();
+    const products = Product.find({sold: false});
     res.json(products);
 });
 
 productRouter.get("/peripherals", authMiddleware, async (req, res) => {
-    const peripherals = await Product.find({ type: "peripheral" }).populate("owner");
+    const peripherals = await Product.find({ type: "peripheral", sold: false }).populate("owner");
 
     res.json(peripherals);
 });
@@ -48,13 +48,13 @@ productRouter.get("/:id", async (req, res) => {
     res.json(product);
 });
 
-//USER PRODUCTS
+//USER PRODUCTS - ACTIVE
 
 productRouter.get("/active/:id", async (req, res) => {
     const id = req.params.id;
 
     try {
-        const products = await Product.find({ owner: id });
+        const products = await Product.find({ owner: id, sold: false });
 
         res.json({ message: "User listings fetched!", products });
     }
@@ -62,6 +62,7 @@ productRouter.get("/active/:id", async (req, res) => {
         res.status(400).json({ message: "Error when fetching user listings!" })
     }
 });
+
 
 //RATING
 
@@ -120,36 +121,23 @@ productRouter.delete("/delete/:id", async (req, res) => {
 
 productRouter.post("/sell/:id", async (req, res) => {
     try {
-        const productId = req.params.id;
-
-        const product = await Product.findById(productId);
-
-        const userId = product.owner;
-
-        const user = await User.findById(userId);
-
-        user.soldProducts.push(productId);
-
-        await user.save();
-
-        res.json({ message: "Product marked as sold!", user });
-
+        const productID = req.params.id;
+        const soldProduct = await Product.findById(productID);
+        soldProduct.sold = true;
+        await soldProduct.save();
+        res.json({message: "Product has been marked as sold!"})
     } catch (err) {
         res.json({ message: err })
     }
-
 });
 
 productRouter.get("/soldproducts/:id", async (req, res) => {
     try {
         const userID = req.params.id;
 
-        const user = await User.findById(userID).populate("soldProducts");
+        const userSoldProducts = await Product.find({owner: userID, sold: true});
 
-        const sold = user.soldProducts;
-
-        res.json({ messaage: "Listing history retrieved!", sold })
-
+        res.json({message: "Product history fetched!", productsHistory: userSoldProducts})
     } catch (err) {
         res.json({ message: err })
     }

@@ -26,9 +26,15 @@ const productSchema = new mongoose.Schema({
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId, ref: 'User',       
+    },
+    sold: {
+        type: Boolean,
+        default: false
     }
 
+
 }, {timestamps: true});
+
 
 const Product = mongoose.model('Product', productSchema);
 

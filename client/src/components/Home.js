@@ -5,9 +5,6 @@ import ProductImg from '../assets/images/products.jpg';
 
 
 export const Home = () => {
-
-    console.log("hello")
-    console.log("lol")
     
     return (
         <Container className='home-container'>
