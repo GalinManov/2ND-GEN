@@ -1,0 +1,10 @@
+.custom-container {
+    padding: 5rem;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.custom-container2 {
+    flex-grow: 1;
+} 

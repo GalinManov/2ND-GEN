@@ -1,0 +1,8 @@
+.paginate {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: 2rem;
+    margin-bottom: 0;
+    
+}

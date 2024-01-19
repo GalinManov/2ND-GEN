@@ -1,0 +1,122 @@
+.details-box{
+    height: fit-content;
+    border-radius: 20px;
+    padding: 25px;
+    background: rgb(247, 244, 244);
+    box-shadow: 10px 10px 5px rgb(0, 0, 0, 0.3);
+    
+  }
+
+  .contact-seller{
+    border-radius: 20px;
+    padding: 25px;
+    background: rgb(247, 244, 244);
+    box-shadow: 10px 10px 5px rgb(0, 0, 0, 0.3);
+    height: fit-content;
+  }
+
+  .details-container{
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    margin:1.5rem; 
+  }
+
+  .pic{
+    width: 100%;
+    max-height: 250px;
+    margin-bottom: 20px;
+    border-radius: 8px; 
+  }
+
+  .name{
+    margin-bottom: 25px;
+  }
+
+  .price{
+    margin-bottom: 20px;
+  }
+
+  .favourite{
+    border-radius: 8px;
+    margin-top: 10px;
+    width: 100%;
+    height: 35px;
+  }
+
+ 
+  .span{
+    margin-bottom: 20px;
+  }
+
+  .star{
+    height: 21px;
+    width: 21px;
+    transition: 0.5ms;
+    opacity: 0.5;  
+  }
+
+  
+
+  .star:hover{
+    cursor: pointer;
+    opacity: 1.5;  
+  }
+
+
+  .details-buttons {
+    display: flex;
+    gap: 1rem;
+
+  }
+
+  .confirmation-window{
+    background-color: rgb(209,145,145);
+    margin-top: 1rem;
+    padding: 0.7rem;
+    border-radius: 7px;
+    animation-name: fadeIn;
+    animation-duration: 0.8s;
+    animation-timing-function: ease-out;
+
+    button{
+      margin-left:1rem;
+    }
+  }
+
+
+
+
+  @media (max-width: 1100px){
+    .details-container{
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .details-box{
+      max-width: 400px;
+      font-size: 14px;
+    }
+
+    .pic{
+      max-height: 200px;
+    }
+
+    .details-buttons{
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+  }
+
+  @keyframes fadeIn{
+    from {opacity: 0;}
+    to {opacity: 1;}
+  };
+
+  
+
+
+  
+  

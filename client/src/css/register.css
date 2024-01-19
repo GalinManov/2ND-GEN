@@ -1,0 +1,13 @@
+.register-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+
+.form-box{
+     text-align: center;
+     padding-top: 50px;
+     height: 50vh;
+
+}

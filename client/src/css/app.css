@@ -1,0 +1,54 @@
+:root {
+    --cont-bg: rgb(247, 244, 244);
+    --cont-radius: 1.5rem;
+    --cont-shadow: 10px 10px 5px rgb(0, 0, 0, 0.3);
+    --cont-margin:
+
+}
+
+
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+
+body {
+    background-image: url('../assets/images/bg-image.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.App {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    flex-grow: 1;
+}
+
+
+
+.footer {  
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    border-top: 1px solid rgb(161, 160, 160);
+    background-color: rgb(248, 249, 250);
+    margin-top: 2rem;
+
+    p {
+        font-style: oblique;
+    }
+}
+
