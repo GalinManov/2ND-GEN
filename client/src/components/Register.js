@@ -16,6 +16,7 @@ export const Register = () => {
         password: ""
     });
 
+    const [err, setErr] = useState("");
 
     async function register(e) {
         e.preventDefault();
@@ -24,15 +25,18 @@ export const Register = () => {
         const email = user.email;
         const password = user.password;
 
-        if(username == "" || email=="" || password ==""){
+        if (username == "" || email == "" || password == "") {
             alert("Please fill out all fields!");
             return;
         };
 
         try {
-            await axios.post('http://localhost:3001/users/register', { username, email, password });
-            nav("/login");
-
+            const res = await axios.post('http://localhost:3001/users/register', { username, email, password });
+            if (res.data.errMsg) {
+                setErr(res.data.errMsg)
+            } else {
+                nav("/login");
+            };
         } catch (err) {
             console.log(err)
         };
@@ -76,6 +80,12 @@ export const Register = () => {
                         <Form.Label>Password</Form.Label>
                         <Form.Control name='password' type="password" placeholder="Password" onChange={onChange} />
                     </Form.Group>
+
+                    {err != "" &&
+                        <p style={{"color": "red"}}>
+                            {err}
+                        </p>
+                    }
 
                     <Button variant="primary" type="submit">
                         Submit

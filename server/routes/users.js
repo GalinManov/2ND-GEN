@@ -13,7 +13,7 @@ userRouter.post("/register", async (req, res) => {
         const user = await User.findOne({ username });
 
         if (user) {
-            return res.json({ message: "User already exists!" });
+            return res.json({ errMsg: "User already exists!" });
         };
 
         const hashPassword = await bcrypt.hash(password, 10);
@@ -24,7 +24,7 @@ userRouter.post("/register", async (req, res) => {
         res.json({ message: "Registered successfully!" });
 
     } catch (err) {
-        res.status(500).json({message: "Error when trying to register!"})
+        res.status(500).json({errMsg: "Error when trying to register!", err})
     }
 });
 

@@ -22,31 +22,35 @@ export const Favorites = () => {
 
     return (
         <Container>
-            <h2 style={{"textAlign":"center", "marginTop":"2rem"}}>Your favorite products</h2>
-            <div className="grid-favorite">
-                {favorites.map(fav =>
-                    <Card style={{ width: '18rem' }} key={fav._id}>
-                        <Card.Img variant="top" src={fav.image} />
-                        <Card.Body>
-                            <Card.Title>{fav.productName}</Card.Title>
-                            <Card.Text>
-                                Price: {fav.price} BGN
-                            </Card.Text>
-                            <Card.Text>
-                                Seller: {fav.owner?.username}
-                            </Card.Text>
+            <h2 style={{ "textAlign": "center", "marginTop": "2rem" }}>Your favorite products</h2>
+            
+            {favorites.length > 0 ?
+                <div className="grid-favorite">
+                    {favorites.map(fav =>
+                        <Card style={{ width: '18rem' }} key={fav._id}>
+                            <Card.Img variant="top" src={fav.image} />
+                            <Card.Body>
+                                <Card.Title>{fav.productName}</Card.Title>
+                                <Card.Text>
+                                    Price: {fav.price} BGN
+                                </Card.Text>
+                                <Card.Text>
+                                    Seller: {fav.owner?.username}
+                                </Card.Text>
 
-                            <Link
-                                className="btn btn-primary btn-md"
-                                role="button"
-                                to={`/products/peripherals/${fav._id}`}
-                            >
-                                View details
-                            </Link>
-                        </Card.Body>
-                    </Card>)}
-
-            </div>
+                                <Link
+                                    className="btn btn-primary btn-md"
+                                    role="button"
+                                    to={`/products/peripherals/${fav._id}`}
+                                >
+                                    View details
+                                </Link>
+                            </Card.Body>
+                        </Card>)}
+                </div>
+                :
+                <h3>No products added to favorites yet!</h3>
+            }
         </Container>
     )
 }

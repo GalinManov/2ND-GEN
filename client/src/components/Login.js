@@ -36,7 +36,6 @@ export const Login = ({ setUser }) => {
         try {
             const result = await axios.post('http://localhost:3001/users/login', { username, email, password });
             if (result.data.userID) {
-                console.log(result)
                 window.localStorage.setItem("userID", result.data.userID);
                 setUser(result.data.userID)
                 setCookies("access_token", result.data.token);
