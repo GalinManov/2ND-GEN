@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 export const History = () => {
 
     const [products, setProducts] = useState([]);
+    const [search, setSearch] = useState('');
 
     const id = useParams();
 
@@ -18,22 +19,32 @@ export const History = () => {
 
     }, []);
 
+    function onChange(e) {
+        setSearch(e.target.value);
+        console.log(search)
+    };
 
+    const filteredPr = products.filter(p => p.productName.toLowerCase().includes(search.toLowerCase()));
+    
     return (
         <Container>
-            <h2 style={{"marginTop":"1rem"}}>All products you have sold:</h2>
-            <table style={{"marginTop":"1rem"}}>
+            <input on onChange={onChange} placeholder="Search by name" style={{ "marginTop": "1rem" }}/>
+            <h2 style={{ "marginTop": "1rem" }}>All products you have sold:</h2>
+            <table style={{ "marginTop": "1rem" }}>
                 <tr>
-                    <th style={{"border":"1px solid #dddddd", "fontWeight":"bold"}}>Product</th>
-                    <th style={{"border":"1px solid #dddddd", "fontWeight":"bold"}}>Sold for</th>
-                    <th style={{"border":"1px solid #dddddd", "fontWeight":"bold"}}>Date sold on</th>
+                    <th style={{ "border": "1px solid #dddddd", "fontWeight": "bold" }}>Product name</th>
+                    <th style={{ "border": "1px solid #dddddd", "fontWeight": "bold" }}>Sold for</th>
+                    <th style={{ "border": "1px solid #dddddd", "fontWeight": "bold" }}>Date sold on</th>
                 </tr>
-                {products.map(pr => 
-                <tr>
-                    <td style={{"border":"1px solid #dddddd"}}>{pr.productName}</td>
-                    <td style={{"border":"1px solid #dddddd"}}>{pr.price}</td>
-                    <td style={{"border":"1px solid #dddddd"}}>date</td>
-                </tr>)}
+                {filteredPr.map(pr =>
+                    <tr>
+                        <th style={{ "border": "1px solid #dddddd" }}>{pr.productName}</th>
+                        <th style={{ "border": "1px solid #dddddd" }}>{pr.price}</th>
+                        <th style={{ "border": "1px solid #dddddd" }}>Date sold on</th>
+                    </tr>
+                )}
+
+
             </table>
         </Container>
 

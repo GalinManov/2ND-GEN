@@ -72,7 +72,7 @@ export const Profile = () => {
                     {active.map(pr =>
                         <div className='active-card' key={pr._id}>
                             <h5>{pr.productName}</h5>
-                            <p>Price: {pr.price}</p>
+                            <p>Price: {pr.price} BGN</p>
                             <a className='btn btn-primary btn-sm' href={`/products/peripherals/${pr._id}`}>View details </a>
                         </div>)}
                 </div>
