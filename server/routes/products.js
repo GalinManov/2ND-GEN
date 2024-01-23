@@ -19,34 +19,38 @@ const authMiddleware = (req, res, next) => {
 
 //POST PRODUCT
 
-productRouter.post("/", async (req, res) => {
-    const { type, productName, price, description, image, owner } = req.body;
+productRouter.post("/", authMiddleware, async (req, res) => {
+    try {
+        const { type, productName, price, description, image, owner } = req.body;
 
-    const newProduct = new Product({ type, productName, price, description, image, owner });
-    await newProduct.save();
+        const newProduct = new Product({ type, productName, price, description, image, owner });
+        await newProduct.save();
+    } catch (err) {
+        res.json({ err: err })
+    }
 });
 
 //GET ALL PRODUCTS
 
-productRouter.get("/", (req, res) => {
-    const products = Product.find({sold: false});
+productRouter.get("/:type", authMiddleware, async (req, res) => {
+    const typePr = req.params.type;
+    const products = await Product.find({ sold: false, type: typePr }).populate("owner");
     res.json(products);
 });
 
-productRouter.get("/peripherals", authMiddleware, async (req, res) => {
-    const peripherals = await Product.find({ type: "peripheral", sold: false }).populate("owner");
-
-    res.json(peripherals);
-});
 
 //GET 1 PRODUCT
 
-productRouter.get("/:id", async (req, res) => {
-    const id = req.params.id;
-    const product = await Product.findById(id).populate("owner");
+productRouter.get("/getone/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const product = await Product.findById(id).populate("owner");
 
-    res.json(product);
-});
+        res.json(product);
+    } catch (err) {
+        res.json({ err: err })
+    }
+})
 
 //USER PRODUCTS - ACTIVE
 
@@ -125,7 +129,7 @@ productRouter.post("/sell/:id", async (req, res) => {
         const soldProduct = await Product.findById(productID);
         soldProduct.sold = true;
         await soldProduct.save();
-        res.json({message: "Product has been marked as sold!"})
+        res.json({ message: "Product has been marked as sold!" })
     } catch (err) {
         res.json({ message: err })
     }
@@ -135,9 +139,9 @@ productRouter.get("/soldproducts/:id", async (req, res) => {
     try {
         const userID = req.params.id;
 
-        const userSoldProducts = await Product.find({owner: userID, sold: true});
+        const userSoldProducts = await Product.find({ owner: userID, sold: true });
 
-        res.json({message: "Product history fetched!", productsHistory: userSoldProducts})
+        res.json({ message: "Product history fetched!", productsHistory: userSoldProducts })
     } catch (err) {
         res.json({ message: err })
     }
@@ -158,27 +162,32 @@ productRouter.post("/favorites/:id", async (req, res) => {
         res.json({ message: "Product added to favorites!" });
 
     } catch (err) {
-        throw Error("Error! Cannot add product to favorites!")
+        res.status(500).json("Error! Cannot add product to favorites!")
     }
 });
 
 productRouter.get("/favorites/:id", async (req, res) => {
-    const userID = req.params.id;
+    try {
+        const userID = req.params.id;
 
-    const user = await User.findById(userID);
-    const products = await Product.find().populate("owner");
+        const user = await User.findById(userID);
+        const products = await Product.find().populate("owner");
 
-    const favoriteProductsIds = user.favoriteProducts;
+        const favoriteProductsIds = user.favoriteProducts;
 
-    const favoriteProducts = [];
+        const favoriteProducts = [];
 
-    products.forEach(pr => {
-        if (favoriteProductsIds.includes(pr._id)) {
-            favoriteProducts.push(pr)
-        };
-    });
+        products.forEach(pr => {
+            if (favoriteProductsIds.includes(pr._id)) {
+                favoriteProducts.push(pr)
+            };
+        });
 
-    res.json({ message: "Products retrieved successfully!", favorites: favoriteProducts, favIds: favoriteProductsIds });
+        res.json({ message: "Products retrieved successfully!", favorites: favoriteProducts, favIds: favoriteProductsIds });
+
+    } catch (err) {
+        res.json({ err: err })
+    }
 });
 
 productRouter.patch("/favorites/delete/:id", async (req, res) => {
@@ -195,6 +204,15 @@ productRouter.patch("/favorites/delete/:id", async (req, res) => {
 
     res.json({ message: "Product removed from favorites!" });
 
+})
+
+productRouter.get("/cmon", (req, res) => {
+    try {
+        res.status(300).json({ message: "cmon" })
+
+    } catch (err) {
+        res.json({ err: err })
+    }
 })
 
 

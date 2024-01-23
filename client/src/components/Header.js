@@ -9,7 +9,7 @@ export const Header = ({ user }) => {
     const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
     function logOut() {
-        removeCookie("access_token");
+        removeCookie(["access_token"]);
         localStorage.removeItem("userID");
     };
 
@@ -23,16 +23,16 @@ export const Header = ({ user }) => {
                     <Nav className="me-auto">
                         <Nav.Link href="/about">About us/contacts</Nav.Link>
                         <NavDropdown title="Products" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/products/peripherals">
+                            <NavDropdown.Item href="/products/peripheral">
                                 Peripherals
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/components">
+                            <NavDropdown.Item href="/products/component">
                                 Components
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/desktop">
+                            <NavDropdown.Item href="/products/desktop">
                                 Desktop Configurations
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/laptops">
+                            <NavDropdown.Item href="/products/laptop">
                                 Laptops
                             </NavDropdown.Item>
                         </NavDropdown>

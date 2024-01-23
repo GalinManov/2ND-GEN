@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { PaginationComp } from './PaginationComp';
 import { useCookies } from 'react-cookie';
 
@@ -15,12 +15,16 @@ export const Peripherals = () => {
 
     const [cookies, setCookies] = useCookies("access-token");
 
+    const params = useParams();
+
+    const type = Object.values(params)[0];
+
     console.log(cookies.access_token);
 
     useEffect(() => {
 
         try {
-            axios.get('http://localhost:3001/products/peripherals', {headers: {authorization: cookies.access_token} })
+            axios.get(`http://localhost:3001/products/${type}`, {headers: {authorization: cookies.access_token} })
                 .then((res) => res.data.errMessage ? setErr(res.data.errMessage) : setPeripherals(res.data));
 
         } catch (err) {
@@ -48,7 +52,7 @@ export const Peripherals = () => {
                     <Link
                         className="btn btn-primary btn-md"
                         role="button"
-                        to={`/products/peripherals/${p._id}`}
+                        to={`/products/type/${p._id}`}
                     >
                         View details
                     </Link>

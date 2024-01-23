@@ -23,7 +23,7 @@ export const Create = () => {
             return alert("Please enter more information about your product!");
         };
 
-        nav("/products/peripherals");
+        nav(`/products/${type}`);
         await axios.post("http://localhost:3001/products", { type, productName, price, description, image, owner });      
     };
 

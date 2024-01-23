@@ -33,12 +33,14 @@ export const History = () => {
             <table style={{ "marginTop": "1rem" }}>
                 <tr>
                     <th style={{ "border": "1px solid #dddddd", "fontWeight": "bold" }}>Product name</th>
+                    <th style={{ "border": "1px solid #dddddd", "fontWeight": "bold" }}>Category</th>
                     <th style={{ "border": "1px solid #dddddd", "fontWeight": "bold" }}>Sold for</th>
                     <th style={{ "border": "1px solid #dddddd", "fontWeight": "bold" }}>Date sold on</th>
                 </tr>
                 {filteredPr.map(pr =>
                     <tr>
                         <th style={{ "border": "1px solid #dddddd" }}>{pr.productName}</th>
+                        <th style={{ "border": "1px solid #dddddd" }}>{pr.type}</th>
                         <th style={{ "border": "1px solid #dddddd" }}>{pr.price}</th>
                         <th style={{ "border": "1px solid #dddddd" }}>Date sold on</th>
                     </tr>

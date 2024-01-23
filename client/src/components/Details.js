@@ -28,16 +28,19 @@ export const Details = () => {
 
     const isOwner = currentUser == product?.owner?._id;
 
-    console.log(favorite);
+    console.log(currentUser);
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/products/${id.id}`)
-            .then((res) => { setProduct(res.data); setAvgRating(res.data.rating) });
+        try {
+            axios.get(`http://localhost:3001/products/getone/${id.id}`)
+                .then((res) => { setProduct(res.data); setAvgRating(res.data.rating) });
 
-        axios.get(`http://localhost:3001/products/favorites/${currentUser}`)
-            .then((res) => { res.data.favIds.includes(id.id) ? setFavorite(true) : setFavorite(false) });
-
+            axios.get(`http://localhost:3001/products/favorites/${currentUser}`)
+                .then((res) => { res?.data?.favIds?.includes(id.id) ? setFavorite(true) : setFavorite(false) });
+        } catch (err) {
+            console.log(err)
+        }
     }, []);
 
 
@@ -49,10 +52,14 @@ export const Details = () => {
 
 
     async function handleAddFavorite() {
-        await axios.post(`http://localhost:3001/products/favorites/${id.id}`, { userID: currentUser });
-        console.log(favorite);
-
-        setFavorite(true);
+        try {
+            await axios.post(`http://localhost:3001/products/favorites/${id.id}`, { userID: currentUser });
+            console.log(favorite);
+    
+            setFavorite(true);
+        } catch (err) {
+            console.log(err)
+        }   
     };
 
     async function handleRemoveFavorite() {
@@ -66,7 +73,7 @@ export const Details = () => {
 
     async function handleRemoveListing() {
         await axios.delete(`http://localhost:3001/products/delete/${id.id}`);
-        nav('/products/peripherals');
+        nav(`/products/${product.type}`);
     };
 
     function handleSoldClick() {
@@ -76,7 +83,7 @@ export const Details = () => {
 
     async function handleSold() {
         await axios.post(`http://localhost:3001/products/sell/${id.id}`);
-        nav('/products/peripherals');
+        nav(`/products/${product.type}`);
     };
 
 
@@ -94,11 +101,13 @@ export const Details = () => {
                     <h5 className="desc">Description from the seller: </h5>
                     <div className="span">{product.description}</div>
                     <div className="rating">Rate this product: {rating === 0 ? stars.map(st => <img src={star} key={st} className="star" onClick={() => handleRatingClick(st)}></img>) : <div>You already rated this product {rating} stars!</div>} </div>
-                    <div>Average rating: {(avgRating.reduce((a, b) => a + b, 0) / avgRating.length).toFixed(2)} out of 5 stars! (Based on {avgRating.length} user ratings)</div>
+                    <div>Average rating: {(avgRating?.reduce((a, b) => a + b, 0) / avgRating?.length).toFixed(2)} out of 5 stars! (Based on {avgRating?.length} user ratings)</div>
+
                     {!isOwner && !favorite ?
                         <button className="btn btn-primary favourite" onClick={handleAddFavorite}>Add to favorites</button>
                         : !isOwner && <button className='btn btn-primary favourite' onClick={handleRemoveFavorite}>Remove from favorites</button>
                     }
+                    
                     {isOwner &&
                         <div className='details-buttons'>
                             <a href={`/products/edit/${product._id}`} className="btn btn-primary favourite">Edit</a>
@@ -115,7 +124,7 @@ export const Details = () => {
                         </div>}
 
                     {checkedSold &&
-                        <div className='confirmation-window' style={{"backgroundColor":"green"}}>
+                        <div className='confirmation-window' style={{ "backgroundColor": "green" }}>
                             <p>Are you sure you want to mark this listing as sold?</p>
                             <button className='btn btn-primary' onClick={handleSold}>Yes</button>
                             <button className='btn btn-primary' onClick={() => setCheckedSold(false)}>No</button>

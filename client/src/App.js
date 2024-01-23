@@ -42,8 +42,11 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login setUser={setUser} />} />
           <Route path='/sell' element={<Create />} />
-          <Route path='/products/peripherals' element={<Peripherals />} />
-          <Route path='/products/peripherals/:id' element={<Details />} />
+          <Route path='/products/:peripheral' element={<Peripherals />} />
+          <Route path='/products/:component' element={<Peripherals />} />
+          <Route path='/products/:desktop' element={<Peripherals />} />
+          <Route path='/products/:laptop' element={<Peripherals />} />
+          <Route path='/products/:type/:id' element={<Details />} />
           <Route path='/about' element={<About />} />
           <Route path='/profile/:id' element={<Profile />} />
           <Route path='/products/edit/:id' element={<Edit />} />
