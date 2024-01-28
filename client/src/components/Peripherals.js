@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { PaginationComp } from './PaginationComp';
@@ -17,15 +17,17 @@ export const Peripherals = () => {
 
     const type = Object.values(params)[0];
 
-    const { user }  = useAuthContext();
+    const { user } = useAuthContext();
+
+    //  axios.get(`http://localhost:3001/products/${type}`, { headers: { "Authorization": localStorage.getItem("token") } })
+    //    .then((res) => res.data.errMessage ? setErr(res.data.errMessage) : setPeripherals(res.data));
 
 
     useEffect(() => {
         try {
-            if (user) {
-                axios.get(`http://localhost:3001/products/${type}`, { headers: { "Authorization": user } })
-                    .then((res) => res.data.errMessage ? setErr(res.data.errMessage) : setPeripherals(res.data));
-            }
+            axios.get(`http://localhost:3001/products/${type}`, { headers: { "Authorization": localStorage.getItem("token") } })
+                .then((res) => res.data.errMessage ? setErr(res.data.errMessage) : setPeripherals(res.data));
+
         } catch (err) {
             console.log(err);
         }

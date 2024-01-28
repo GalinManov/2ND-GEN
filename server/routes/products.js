@@ -3,7 +3,6 @@ const Product = require("../models/Product");
 const User = require('../models/User')
 const jwt = require("jsonwebtoken");
 
-
 const productRouter = express.Router();
 
 
@@ -11,10 +10,16 @@ const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
+        const verified = jwt.verify(authHeader, process.env.SECRET);
+
+        if (!verified) {
+            return res.json({ err: "Invalid token!" })
+        };
+
         next();
     } else {
-        res.json({ errMessage: "Access forbidden! Unauthorized!" })
-    };
+        res.json({ errMessage: "Access forbidden!" })
+    }
 };
 
 //POST PRODUCT

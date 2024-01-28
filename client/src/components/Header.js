@@ -13,6 +13,7 @@ export const Header = () => {
 
     function logOut() {
         localStorage.removeItem("userID");
+        localStorage.removeItem("token");
         dispatch({type: "LOGOUT"})
     };
 

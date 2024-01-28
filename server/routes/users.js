@@ -24,7 +24,7 @@ userRouter.post("/register", async (req, res) => {
         res.json({ message: "Registered successfully!" });
 
     } catch (err) {
-        res.status(500).json({errMsg: "Error when trying to register!", err})
+        res.status(500).json({ errMsg: "Error when trying to register!", err })
     }
 });
 
@@ -46,14 +46,14 @@ userRouter.post("/login", async (req, res) => {
         };
 
 
-        const token = jwt.sign({ id: user._id }, "secret");
+        const token = jwt.sign({ id: user._id }, process.env.SECRET);
 
 
-        res.json({ token, userID: user._id });
+        res.json({ token, userID: user._id, username });
 
 
     } catch (err) {
-        res.json({ message: "Error when trying to log in!"})
+        res.json({ message: "Error when trying to log in!" })
     }
 
 });
