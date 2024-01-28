@@ -10,9 +10,9 @@ export const Details = () => {
 
     const [stars, _] = useState([1, 2, 3, 4, 5]);
 
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState([]);
 
-    const [avgRating, setAvgRating] = useState([]);
+    const [avgRating, setAvgRating] = useState();
 
     const [favorite, setFavorite] = useState(false);
 
@@ -28,26 +28,40 @@ export const Details = () => {
 
     const isOwner = currentUser == product?.owner?._id;
 
-    console.log(currentUser);
+    const hasRated = rating.find(r => r.userID == currentUser);
+
+    let totalRated = 0;
+
+    console.log(rating.length, avgRating);
 
 
     useEffect(() => {
         try {
             axios.get(`http://localhost:3001/products/getone/${id.id}`)
-                .then((res) => { setProduct(res.data); setAvgRating(res.data.rating) });
+                .then((res) => { setProduct(res.data); res.data.rating.forEach(r => totalRated += r.rating); setAvgRating(totalRated) });
 
             axios.get(`http://localhost:3001/products/favorites/${currentUser}`)
                 .then((res) => { res?.data?.favIds?.includes(id.id) ? setFavorite(true) : setFavorite(false) });
+
+            axios.get(`http://localhost:3001/products/get/rating/${id.id}`)
+                .then((res) => setRating(res?.data));
+
         } catch (err) {
             console.log(err)
         }
     }, []);
 
 
-    async function handleRatingClick(rating) {
-        setRating(rating);
-        const res = await axios.patch(`http://localhost:3001/products/${id.id}`, { rating });
-        setAvgRating(res.data.rating);
+    async function handleRatingClick(number) {
+        const res = await axios.patch(`http://localhost:3001/products/allratings/${id.id}`, { userID: currentUser, rating: number });
+
+        const allRatings = res.data;
+
+        allRatings.forEach(r => totalRated += r.rating)
+
+        setRating(res.data);
+        setAvgRating(totalRated);
+        console.log(avgRating)
     };
 
 
@@ -55,11 +69,11 @@ export const Details = () => {
         try {
             await axios.post(`http://localhost:3001/products/favorites/${id.id}`, { userID: currentUser });
             console.log(favorite);
-    
+
             setFavorite(true);
         } catch (err) {
             console.log(err)
-        }   
+        }
     };
 
     async function handleRemoveFavorite() {
@@ -100,14 +114,15 @@ export const Details = () => {
                     <h5 className="price">Price: {product.price} BGN</h5>
                     <h5 className="desc">Description from the seller: </h5>
                     <div className="span">{product.description}</div>
-                    <div className="rating">Rate this product: {rating === 0 ? stars.map(st => <img src={star} key={st} className="star" onClick={() => handleRatingClick(st)}></img>) : <div>You already rated this product {rating} stars!</div>} </div>
-                    <div>Average rating: {(avgRating?.reduce((a, b) => a + b, 0) / avgRating?.length).toFixed(2)} out of 5 stars! (Based on {avgRating?.length} user ratings)</div>
+                    <div className="rating">Rate this product: {!hasRated ? stars.map(st => <img src={star} key={st} className="star" onClick={() => handleRatingClick(st)}></img>) : <div>You already rated this product {rating.rating} stars!</div>} </div>
+                    <div>Average rating:
+                        {(avgRating / rating.length).toFixed(2)} out of 5 stars! (Based on {rating?.length} user ratings)</div>
 
                     {!isOwner && !favorite ?
                         <button className="btn btn-primary favourite" onClick={handleAddFavorite}>Add to favorites</button>
                         : !isOwner && <button className='btn btn-primary favourite' onClick={handleRemoveFavorite}>Remove from favorites</button>
                     }
-                    
+
                     {isOwner &&
                         <div className='details-buttons'>
                             <a href={`/products/edit/${product._id}`} className="btn btn-primary favourite">Edit</a>

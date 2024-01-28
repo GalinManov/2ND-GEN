@@ -40,9 +40,9 @@ export const History = () => {
                 {filteredPr.map(pr =>
                     <tr>
                         <th style={{ "border": "1px solid #dddddd" }}>{pr.productName}</th>
-                        <th style={{ "border": "1px solid #dddddd" }}>{pr.type}</th>
-                        <th style={{ "border": "1px solid #dddddd" }}>{pr.price}</th>
-                        <th style={{ "border": "1px solid #dddddd" }}>Date sold on</th>
+                        <th style={{ "border": "1px solid #dddddd" }}>{pr.type.toUpperCase()}</th>
+                        <th style={{ "border": "1px solid #dddddd" }}>{pr.price} BGN</th>
+                        <th style={{ "border": "1px solid #dddddd" }}>{pr.soldDate.slice(0,21)}</th>
                     </tr>
                 )}
 

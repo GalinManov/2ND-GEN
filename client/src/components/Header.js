@@ -2,15 +2,18 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useCookies } from 'react-cookie';
+import { AuthContext } from '../contexts/AuthContext';
+import { useContext } from 'react';
+import { useAuthContext } from '../contexts/useAuthContext';
 
-export const Header = ({ user }) => {
 
-    const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+export const Header = () => {
+
+    const { user, dispatch } = useAuthContext();
 
     function logOut() {
-        removeCookie(["access_token"]);
         localStorage.removeItem("userID");
+        dispatch({type: "LOGOUT"})
     };
 
 
@@ -36,13 +39,13 @@ export const Header = ({ user }) => {
                                 Laptops
                             </NavDropdown.Item>
                         </NavDropdown>
-                        {user == undefined &&
+                        {user == null &&
                             <>
                                 <Nav.Link href="/register">Register</Nav.Link>
                                 <Nav.Link href="/login">Login</Nav.Link>
                             </>
                         }
-                        {user != undefined &&
+                        {user != null &&
                             <>
                                 <Nav.Link href={`/profile/${user}`}>Profile</Nav.Link>
                                 <Nav.Link href="/sell">Sell</Nav.Link>

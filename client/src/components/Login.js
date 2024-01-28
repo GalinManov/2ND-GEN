@@ -1,14 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useCookies} from 'react-cookie';
+import { useAuthContext } from '../contexts/useAuthContext';
 
 
-export const Login = ({ setUser }) => {
+export const Login = () => {
 
-    const [_, setCookies] = useCookies("access_token");
+    const { dispatch } = useAuthContext();
 
     const nav = useNavigate();
 
@@ -37,8 +37,7 @@ export const Login = ({ setUser }) => {
             const result = await axios.post('http://localhost:3001/users/login', { username, email, password });
             if (result.data.userID) {
                 window.localStorage.setItem("userID", result.data.userID);
-                setUser(result.data.userID)
-                setCookies("access_token", result.data.token);
+                dispatch({type: "LOGIN", payload: result.data.userID})
                 nav("/");
             } else {
                 setError(result.data.err);
@@ -84,7 +83,7 @@ export const Login = ({ setUser }) => {
                     </Form.Group>
 
                     {error != "" &&
-                        <p style={{"color": "red"}}>
+                        <p style={{ "color": "red" }}>
                             {error}
                         </p>
                     }

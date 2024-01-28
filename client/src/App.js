@@ -22,25 +22,21 @@ import { Profile } from './components/Profile';
 import { Edit } from './components/Edit';
 import { Favorites } from './components/Favorites';
 import { History } from './components/History';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 
 
 function App() {
 
-  const userID = localStorage.getItem("userID");
-
-  const [user, setUser] = useState(userID || undefined);
 
   return (
-
     <div className="App">
-      <Header user={user} />
+      <Header />
       <div className='main'>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login setUser={setUser} />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/sell' element={<Create />} />
           <Route path='/products/:peripheral' element={<Peripherals />} />
           <Route path='/products/:component' element={<Peripherals />} />

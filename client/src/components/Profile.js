@@ -76,7 +76,7 @@ export const Profile = () => {
                             <a className='btn btn-primary btn-sm' href={`/products/${pr.type}/${pr._id}`}>View details </a>
                         </div>)}
                 </div>
-                
+
                 : <h4 style={{ "marginTop": "2rem" }}>You have no active listings!</h4>}
 
         </Container>

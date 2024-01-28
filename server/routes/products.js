@@ -19,7 +19,7 @@ const authMiddleware = (req, res, next) => {
 
 //POST PRODUCT
 
-productRouter.post("/", authMiddleware, async (req, res) => {
+productRouter.post("/", async (req, res) => {
     try {
         const { type, productName, price, description, image, owner } = req.body;
 
@@ -70,19 +70,35 @@ productRouter.get("/active/:id", async (req, res) => {
 
 //RATING
 
-productRouter.patch("/:id", async (req, res) => {
-    const id = req.params.id;
+productRouter.patch("/allratings/:id", async (req, res) => {
     try {
+        const id = req.params.id;
+        const userID = req.body.userID;
+        const rating = req.body.rating;
         const product = await Product.findById(id);
-        product.rating.push(req.body.rating);
+        product.rating.push({ userID, rating });
         await product.save();
 
-        res.json(product);
+        res.json(product.rating);
     } catch (err) {
         res.status(400).json({ message: "Error when trying to patch!" })
     }
 
 });
+
+
+productRouter.get("/get/rating/:id", async (req, res) => {
+    try {
+        const productID = req.params.id;
+        const product = await Product.findById(productID);
+        const productRatings = product.rating;
+
+        res.json(productRatings)
+    } catch (err) {
+        res.json({ err: "Failed to retrieve product ratings!" })
+    }
+});
+
 
 //EDIT PRODUCT
 
@@ -128,6 +144,7 @@ productRouter.post("/sell/:id", async (req, res) => {
         const productID = req.params.id;
         const soldProduct = await Product.findById(productID);
         soldProduct.sold = true;
+        soldProduct.soldDate = Date();
         await soldProduct.save();
         res.json({ message: "Product has been marked as sold!" })
     } catch (err) {
