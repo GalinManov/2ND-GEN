@@ -55,7 +55,8 @@
 .profile-active {
     padding: 2rem;
     display: grid;
-    gap: 1rem;
+    justify-content: left;
+    gap: 1.5rem;
     grid-auto-flow: column;
     overflow-x: scroll;
 

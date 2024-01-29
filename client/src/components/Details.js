@@ -29,22 +29,22 @@ export const Details = () => {
     const isOwner = currentUser == product?.owner?._id;
 
     const hasRated = rating.find(r => r.userID == currentUser);
+    const userRating = hasRated?.rating;
 
-    let totalRated = 0;
 
-    console.log(rating.length, avgRating);
+    console.log(avgRating, rating, userRating);
 
 
     useEffect(() => {
         try {
             axios.get(`http://localhost:3001/products/getone/${id.id}`)
-                .then((res) => { setProduct(res.data); res.data.rating.forEach(r => totalRated += r.rating); setAvgRating(totalRated) });
+                .then((res) => setProduct(res.data));
 
             axios.get(`http://localhost:3001/products/favorites/${currentUser}`)
                 .then((res) => { res?.data?.favIds?.includes(id.id) ? setFavorite(true) : setFavorite(false) });
 
             axios.get(`http://localhost:3001/products/get/rating/${id.id}`)
-                .then((res) => setRating(res?.data));
+                .then(res => { setAvgRating(res.data.average); setRating(res.data.productRatings) });
 
         } catch (err) {
             console.log(err)
@@ -55,13 +55,8 @@ export const Details = () => {
     async function handleRatingClick(number) {
         const res = await axios.patch(`http://localhost:3001/products/allratings/${id.id}`, { userID: currentUser, rating: number });
 
-        const allRatings = res.data;
-
-        allRatings.forEach(r => totalRated += r.rating)
-
-        setRating(res.data);
-        setAvgRating(totalRated);
-        console.log(avgRating)
+        setRating(prev => [...prev, { userID: currentUser, rating: number }]);
+        setAvgRating(res.data);
     };
 
 
@@ -106,7 +101,9 @@ export const Details = () => {
         <Container className='details-container'>
             <div className="details-box">
 
-                <img src={product.image} className="pic" />
+                <div className='pic-wrapper'>
+                    <img src={product.image} className="pic" />
+                </div>
 
                 <div className="box-1">
                     <h2 className="name">{product.productName}</h2>
@@ -114,9 +111,14 @@ export const Details = () => {
                     <h5 className="price">Price: {product.price} BGN</h5>
                     <h5 className="desc">Description from the seller: </h5>
                     <div className="span">{product.description}</div>
-                    <div className="rating">Rate this product: {!hasRated ? stars.map(st => <img src={star} key={st} className="star" onClick={() => handleRatingClick(st)}></img>) : <div>You already rated this product {rating.rating} stars!</div>} </div>
-                    <div>Average rating:
-                        {(avgRating / rating.length).toFixed(2)} out of 5 stars! (Based on {rating?.length} user ratings)</div>
+                    <div className="rating">{!hasRated && "Rate this product:"} {!hasRated ?
+                        stars.map(st => <img src={star} key={st} className="star" onClick={() => handleRatingClick(st)}></img>)
+                        : <div>You already rated this product {userRating} stars!</div>}
+                    </div>
+
+                    <div>
+                        Average rating: {avgRating?.toFixed(2)} out of 5 stars! (Based on {rating?.length} user ratings)
+                    </div>
 
                     {!isOwner && !favorite ?
                         <button className="btn btn-primary favourite" onClick={handleAddFavorite}>Add to favorites</button>

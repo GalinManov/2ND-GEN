@@ -19,16 +19,16 @@ export const AuthContextProvider = ({ children }) => {
         user: null
     });
 
+
     useEffect(() => {
         const user = localStorage.getItem("userID");
-
+        
         if (user) {
             dispatch({type: "LOGIN", payload: user})
         };
 
     }, []);
 
-    console.log(state)
 
     return (
 

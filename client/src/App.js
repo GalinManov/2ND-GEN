@@ -8,7 +8,7 @@ import './css/profile.css';
 import './css/about.css';
 import './css/favorite.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Home } from './components/Home';
@@ -23,11 +23,15 @@ import { Edit } from './components/Edit';
 import { Favorites } from './components/Favorites';
 import { History } from './components/History';
 import React, { useContext, useEffect, useState } from 'react';
+import { useAuthContext } from './contexts/useAuthContext';
 
 
 
 function App() {
 
+  const { user } = useAuthContext();
+
+  console.log(user)
 
   return (
     <div className="App">
@@ -35,19 +39,19 @@ function App() {
       <div className='main'>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/sell' element={<Create />} />
+          <Route path='/register' element={user ? <Navigate to={"/"} /> : <Register />} />
+          <Route path='/login' element={user ? <Navigate to={"/"} /> : <Login />} />
+          <Route path='/sell' element={user && <Create />} />
           <Route path='/products/:peripheral' element={<Peripherals />} />
           <Route path='/products/:component' element={<Peripherals />} />
           <Route path='/products/:desktop' element={<Peripherals />} />
           <Route path='/products/:laptop' element={<Peripherals />} />
           <Route path='/products/:type/:id' element={<Details />} />
           <Route path='/about' element={<About />} />
-          <Route path='/profile/:id' element={<Profile />} />
-          <Route path='/products/edit/:id' element={<Edit />} />
-          <Route path='/products/favorites/:id' element={<Favorites />} />
-          <Route path='/productHistory/:id' element={<History />} />
+          <Route path='/profile/:id' element={user && <Profile />} />
+          <Route path='/products/edit/:id' element={user && <Edit />} />
+          <Route path='/products/favorites/:id' element={user && <Favorites />} />
+          <Route path='/productHistory/:id' element={user && <History />} />
         </Routes>
       </div>
       <Footer></Footer>

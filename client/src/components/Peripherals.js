@@ -37,9 +37,9 @@ export const Peripherals = () => {
 
     const filtered = (filteredPosts) => {
         return filteredPosts.map(p =>
-            <Card style={{ width: '18rem' }} key={p._id}>
-                <Card.Img variant="top" src={p.image} />
-                <Card.Body>
+            <Card style={{ "width": '18rem' }} key={p._id}>
+                <Card.Img variant="top" src={p.image} style={{ "height": "50%" }} />
+                <Card.Body >
                     <Card.Title>{p.productName}</Card.Title>
                     <Card.Text>
                         Price: {p.price} BGN

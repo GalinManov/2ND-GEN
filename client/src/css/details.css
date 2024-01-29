@@ -23,11 +23,20 @@
     margin:1.5rem; 
   }
 
+  .pic-wrapper {
+    max-height: 250px;
+    margin-bottom: 20px;
+  }
+
   .pic{
     width: 100%;
     max-height: 250px;
-    margin-bottom: 20px;
-    border-radius: 8px; 
+    vertical-align: middle;
+    font-style: italic;
+    background-repeat: no-repeat;
+    background-size: cover;
+    shape-margin: 1rem;
+    border-radius: 6px;
   }
 
   .name{

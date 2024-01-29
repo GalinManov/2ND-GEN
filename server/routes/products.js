@@ -83,8 +83,14 @@ productRouter.patch("/allratings/:id", async (req, res) => {
         const product = await Product.findById(id);
         product.rating.push({ userID, rating });
         await product.save();
+        const productRatings = product.rating;
 
-        res.json(product.rating);
+        let ratingNumbers = [];
+        productRatings.forEach(pr => ratingNumbers.push(pr.rating));
+
+        const average = ratingNumbers.length > 0 ? ratingNumbers.reduce((a, b) => a + b) / ratingNumbers.length : 0;
+
+        res.json(average)
     } catch (err) {
         res.status(400).json({ message: "Error when trying to patch!" })
     }
@@ -98,7 +104,12 @@ productRouter.get("/get/rating/:id", async (req, res) => {
         const product = await Product.findById(productID);
         const productRatings = product.rating;
 
-        res.json(productRatings)
+        let ratingNumbers = [];
+        productRatings.forEach(pr => ratingNumbers.push(pr.rating));
+
+        const average = ratingNumbers.length > 0 ? ratingNumbers.reduce((a, b) => a + b) / ratingNumbers.length : 0;
+
+        res.json({ productRatings, average })
     } catch (err) {
         res.json({ err: "Failed to retrieve product ratings!" })
     }

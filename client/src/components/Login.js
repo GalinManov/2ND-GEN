@@ -36,8 +36,8 @@ export const Login = () => {
         try {
             const result = await axios.post('http://localhost:3001/users/login', { username, email, password });
             if (result.data.userID) {
-                window.localStorage.setItem("userID", result.data.userID);
-                window.localStorage.setItem("token", result.data.token);
+                localStorage.setItem("userID", result.data.userID);
+                localStorage.setItem("token", result.data.token);
                 dispatch({type: "LOGIN", payload: result.data.userID})
                 nav("/");
             } else {

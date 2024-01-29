@@ -2,11 +2,12 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../contexts/useAuthContext';
 
 
 export const Create = () => {
     const nav = useNavigate();
-    const owner = localStorage.getItem("userID");
+    const { user } = useAuthContext();
 
     async function onSubmit(e) {
         e.preventDefault();
@@ -24,7 +25,7 @@ export const Create = () => {
         };
 
         nav(`/products/${type}`);
-        await axios.post("http://localhost:3001/products", { type, productName, price, description, image, owner });      
+        await axios.post("http://localhost:3001/products", { type, productName, price, description, image, owner: user});
     };
 
 
