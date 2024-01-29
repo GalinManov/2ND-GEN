@@ -8,9 +8,14 @@ export const Home = () => {
     
     return (
         <Container className='home-container'>
+
+            <div className='home-intro'>
+                <h1>Welcome to 2ND RIGS!</h1>
+                <h3>A place where you can find the best quality in second-hand electronics!</h3>
+            </div>
             
-            <Carousel style={{"marginTop":"150px", "width":"90vw"}}>
-                <Carousel.Item style={{"height":"50vh"}}>
+            <Carousel style={{"marginTop":"70px", "width":"90vw"}}>
+                <Carousel.Item style={{"height":"550px"}}>
                     <img className='home-imgs' src={HardWareImg} /> 
                     <Carousel.Caption>
                         <h3>Hardware and components</h3>
@@ -18,7 +23,7 @@ export const Home = () => {
                     </Carousel.Caption>
                 </Carousel.Item>
 
-                <Carousel.Item style={{"height":"50vh"}}>
+                <Carousel.Item style={{"height":"550px"}}>
                     <img className='home-imgs' src={ProductImg} /> 
                     <Carousel.Caption>
                         <h3>Hardware and components</h3>

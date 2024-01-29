@@ -63,6 +63,9 @@
 }
 
 .active-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: var(--cont-bg);
     box-shadow: var(--cont-shadow);
     padding: 1rem;
